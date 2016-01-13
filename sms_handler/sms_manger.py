@@ -27,7 +27,7 @@ class SmsManager(object):
         message.save()
         try:
             # do whatever you need before you send the message
-            response = sender.send(message, phone_number)
+            response = sender.send(message)
             message_log = MessageLog()
             message_log.message = message
             message_log.response_data = response.data

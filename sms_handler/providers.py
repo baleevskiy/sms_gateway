@@ -14,33 +14,33 @@ class SmsProvider(object):
     base class which just sends message to a number.
     """
     # TODO: ABC subclass
-    def send(self, message, number):
+    def send(self, message):
         """
+        :param message: Message
         :rtype : ProviderResponse
         """
         # do whatever you need here
-        result = self._send(message, number)
+        result = self._send(message)
         if not isinstance(result, ProviderResponse):
             raise Exception('Bad response from provider')
 
         return result
 
-    def _send(self, message, number):
+    def _send(self, message):
         """
 
         :param message: Message
-        :param number: str
         :return: ProviderResponse
         """
         raise NotImplemented
 
 
 class SmsProvider1(SmsProvider):
-    def _send(self, message, number):
+    def _send(self, message):
 
         try:
             url_2 = settings.PROVIDERS['provider1']['url']
-            values = dict(number=number, message=message.body)
+            values = dict(number=message.number, message=message.body)
             data = urllib.urlencode(values)
             request = urllib2.Request(url_2, data)
             response = urllib2.urlopen(request)
@@ -59,11 +59,11 @@ class SmsProvider1(SmsProvider):
 
 
 class SmsProvider2(SmsProvider):
-    def _send(self, message, number):
+    def _send(self, message):
 
         try:
             url_2 = settings.PROVIDERS['provider2']['url']
-            values = dict(number=number, message=message.body)
+            values = dict(number=message.number, message=message.body)
             data = urllib.urlencode(values)
             request = urllib2.Request(url_2, data)
             response = urllib2.urlopen(request)
